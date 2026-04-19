@@ -16,6 +16,7 @@ WHERE UserID IN (
 );
 
 -- 1.2  Mostrar el título y autor de los libros que están prestados.
+
 SELECT Title, Author 
 FROM books 
 WHERE BookID IN (
@@ -25,6 +26,7 @@ SELECT BookID FROM loans WHERE ReturnDate IS NULL
 -- 2 OPERADORES DE CONJUNTO
 
 -- 2.1 Encontrar los títulos de los libros que han sido reservados, pero no prestados.
+
 SELECT DISTINCT b.Title
 FROM books b
 JOIN reservations r ON b.BookID = r.BookID
@@ -32,6 +34,7 @@ LEFT JOIN loans l ON b.BookID = l.BookID
 WHERE l.LoanID IS NULL;
 
 --2.2 Encontrar los títulos de los libros que han sido prestados, pero no reservados.
+
 SELECT DISTINCT b.Title
 FROM books b
 JOIN loans l ON b.BookID = l.BookID
@@ -41,6 +44,7 @@ WHERE r.ReservationID IS NULL;
 -- 3. EXPRESIONES CONDICIONALES
 
 --3.1 Mostrar un listado de todos los libros con un estado: "Disponible" si AvailableCopies > 0, o "Agotado" si no hay copias disponibles.
+
 SELECT Title, AvailableCopies,
 CASE 
 WHEN AvailableCopies > 0 THEN 'Disponible'
@@ -61,6 +65,7 @@ LEFT JOIN loans l ON u.UserID = l.UserID;
 --4. ANÁLISIS AGREGADO CON GROUP BY Y HAVING
 
 --4.1 Encontrar las categorías con más de 3 libros.
+
 SELECT c.CategoryName, COUNT(b.BookID) AS TotalLibros
 FROM bookcategories c
 JOIN books b ON c.CategoryID = b.CategoryID
@@ -68,6 +73,7 @@ GROUP BY c.CategoryName
 HAVING COUNT(b.BookID) > 3;
 
 --4.2 Mostrar los usuarios que tienen más de 2 libros reservados.
+
 SELECT u.FirstName, u.LastName, COUNT(r.ReservationID) AS TotalReservas
 FROM users u
 JOIN reservations r ON u.UserID = r.UserID
